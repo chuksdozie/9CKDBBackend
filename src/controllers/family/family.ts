@@ -3,7 +3,6 @@ import { APIError } from "../../config/error";
 import {
   deleteParentQuery,
   editParentQuery,
-  editStudentQuery,
   getAllParentsQuery,
   getParentByIdQuery,
   getStudentsByParentIdQuery,

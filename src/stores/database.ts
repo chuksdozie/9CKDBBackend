@@ -9,9 +9,9 @@ export const sql = postgres(process.env.DATABASE_URL!, {
       console.log({ query: queryString, params });
     }
   },
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  // ssl: {
+  //   rejectUnauthorized: false,
+  // },
 });
 
 export function testDBConnection() {

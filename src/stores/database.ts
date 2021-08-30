@@ -10,7 +10,7 @@ export const sql = postgres(process.env.DATABASE_URL!, {
     }
   },
   ssl: {
-    rejectUnauthorized: false,
+    rejectUnauthorized: true,
   },
 });
 

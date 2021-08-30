@@ -5,18 +5,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.closeDBConnection = exports.testDBConnection = exports.sql = void 0;
 const postgres_1 = __importDefault(require("postgres"));
-const IN_PROD = process.env.NODE_ENV === 'production';
+const IN_PROD = process.env.NODE_ENV === "production";
 exports.sql = postgres_1.default(process.env.DATABASE_URL, {
     debug: (_, query, params) => {
         if (!IN_PROD) {
-            const queryString = query.split('\n').join('');
+            const queryString = query.split("\n").join("");
             console.log({ query: queryString, params });
         }
+    },
+    ssl: {
+        sslmode: "require",
+        rejectUnauthorized: false,
+        require: true,
     },
 });
 function testDBConnection() {
     exports.sql `SELECT 1+1 AS result`
-        .then(() => console.log('Connected to postgres'))
+        .then(() => console.log("Connected to postgres"))
         .catch((err) => {
         if (!IN_PROD)
             throw Error(err);
@@ -24,7 +29,7 @@ function testDBConnection() {
 }
 exports.testDBConnection = testDBConnection;
 function closeDBConnection() {
-    exports.sql.end().then(() => console.log('Connection to Postgres closed'));
+    exports.sql.end().then(() => console.log("Connection to Postgres closed"));
 }
 exports.closeDBConnection = closeDBConnection;
 //# sourceMappingURL=database.js.map

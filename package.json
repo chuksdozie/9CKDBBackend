@@ -30,7 +30,7 @@
   },
   "scripts": {
     "stop": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "build": "tsc",
+    "build": "scripts/build.sh",
     "start": "node dist/index.js",
     "dev": "tsc -w & nodemon dist/index.js",
     "migrate": "ts-node node_modules/.bin/node-pg-migrate -j ts"

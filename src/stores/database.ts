@@ -2,7 +2,15 @@ import postgres from "postgres";
 
 const IN_PROD = process.env.NODE_ENV === "production";
 
+export const sharedConfig = {
+  client: "pg",
+  migrations: {
+    directory: "../../migrations",
+  },
+};
+
 export const sql = postgres(process.env.DATABASE_URL!, {
+  ...sharedConfig,
   debug: (_, query, params) => {
     if (!IN_PROD) {
       const queryString = query.split("\n").join("");

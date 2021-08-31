@@ -1,4 +1,4 @@
-yarn migrate up
+yarn run migrate up
 yarn tsc
 
 ###### There is currently no client side, uncomment when there is a client side #########

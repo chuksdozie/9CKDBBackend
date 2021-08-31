@@ -12,6 +12,7 @@ export const sql = postgres(process.env.DATABASE_URL!, {
   ssl: {
     sslmode: "require",
     rejectUnauthorized: false,
+    require: true,
   },
 });
 

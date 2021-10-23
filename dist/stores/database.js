@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.closeDBConnection = exports.testDBConnection = exports.sql = void 0;
 const postgres_1 = __importDefault(require("postgres"));
 const IN_PROD = process.env.NODE_ENV === "production";
-exports.sql = postgres_1.default(process.env.DATABASE_URL, {
+exports.sql = (0, postgres_1.default)(process.env.DATABASE_URL, {
     debug: (_, query, params) => {
         if (!IN_PROD) {
             const queryString = query.split("\n").join("");
@@ -20,7 +20,7 @@ exports.sql = postgres_1.default(process.env.DATABASE_URL, {
     },
 });
 function testDBConnection() {
-    exports.sql `SELECT 1+1 AS result`
+    (0, exports.sql) `SELECT 1+1 AS result`
         .then(() => console.log("Connected to postgres"))
         .catch((err) => {
         if (!IN_PROD)

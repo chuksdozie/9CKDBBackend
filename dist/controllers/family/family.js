@@ -9,7 +9,7 @@ const queries_1 = require("../../queries");
 const utils_1 = require("../../utils");
 async function registerParent(payload) {
     try {
-        const [family] = await queries_1.registerParentQuery(payload);
+        const [family] = await (0, queries_1.registerParentQuery)(payload);
         return family;
     }
     catch (error) {
@@ -22,7 +22,7 @@ async function registerParent(payload) {
 }
 async function getParentById(family_id) {
     try {
-        const [family] = await queries_1.getParentByIdQuery(family_id);
+        const [family] = await (0, queries_1.getParentByIdQuery)(family_id);
         return family;
     }
     catch (error) {
@@ -36,7 +36,7 @@ async function getParentById(family_id) {
 // get all the parents controller
 async function getAllParents() {
     try {
-        const family = await queries_1.getAllParentsQuery();
+        const family = await (0, queries_1.getAllParentsQuery)();
         return family;
     }
     catch (error) {
@@ -50,7 +50,7 @@ async function getAllParents() {
 // get all the students belonging to a parent
 async function getStudentsByParentId(family_id) {
     try {
-        const family = await queries_1.getStudentsByParentIdQuery(family_id);
+        const family = await (0, queries_1.getStudentsByParentIdQuery)(family_id);
         return family;
     }
     catch (error) {
@@ -64,7 +64,7 @@ async function getStudentsByParentId(family_id) {
 // get all the total students belonging to  a parent
 async function getTotalStudentsByParentId(family_id) {
     try {
-        const family = await queries_1.getTotalStudentsByParentIdQuery(family_id);
+        const family = await (0, queries_1.getTotalStudentsByParentIdQuery)(family_id);
         return family;
     }
     catch (error) {
@@ -78,7 +78,7 @@ async function getTotalStudentsByParentId(family_id) {
 // edit parent details
 async function editParent(id, payload) {
     try {
-        const parentToEdit = await queries_1.getParentByIdQuery(id);
+        const parentToEdit = await (0, queries_1.getParentByIdQuery)(id);
         if (!parentToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -98,9 +98,9 @@ async function editParent(id, payload) {
             how_parent_heard_about_us: payload.how_parent_heard_about_us ||
                 parentToEdit[0].how_parent_heard_about_us,
             city: payload.city || parentToEdit[0].city,
-            updated_at: utils_1.now(),
+            updated_at: (0, utils_1.now)(),
         };
-        const [editedParent] = await queries_1.editParentQuery(id, editPayload);
+        const [editedParent] = await (0, queries_1.editParentQuery)(id, editPayload);
         return editedParent;
     }
     catch (error) {
@@ -114,7 +114,7 @@ async function editParent(id, payload) {
 // delete parent details
 async function deleteParent(id) {
     try {
-        const parentToEdit = await queries_1.getParentByIdQuery(id);
+        const parentToEdit = await (0, queries_1.getParentByIdQuery)(id);
         if (!parentToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -123,9 +123,9 @@ async function deleteParent(id) {
             });
         }
         const editParentPayload = {
-            deleted_at: utils_1.now(),
+            deleted_at: (0, utils_1.now)(),
         };
-        const [editedParent] = await queries_1.deleteParentQuery(id, editParentPayload);
+        const [editedParent] = await (0, queries_1.deleteParentQuery)(id, editParentPayload);
         return editedParent;
     }
     catch (error) {

@@ -51,10 +51,10 @@ async function sendTokenViaEmail(email) {
       */
     const token = uuid.v4();
     const emailKey = `${redis_1.REDIS_PREFIX}-${token}`;
-    const mainurl = `${process.env.BASE_URL}/auth/verify/${token}`;
+    const mainurl = `${process.env.BASE_URL}/api/auth/verify/${token}`;
     redis_1.default.set(emailKey, email);
     const tokenurl = `<p>Thanks for registering, please <a href="${mainurl}", target="_blank">click here</a> to verify your email.</p>`;
-    mailer_1.sendmailRef(email, tokenurl);
+    (0, mailer_1.sendmailRef)(email, tokenurl);
     // tokenVerification(email)
 }
 exports.sendTokenViaEmail = sendTokenViaEmail;
@@ -74,13 +74,17 @@ async function verifyEmail(token) {
         }
         const email = (await redis_1.default.get(emailKey));
         console.log(email);
-        const [verifiedUser] = await queries_1.verifyAdminQuery(email);
-        const tokeng = tokenUtils_1.signToken({
+        const [verifiedUser] = await (0, queries_1.verifyAdminQuery)(email);
+        const tokeng = (0, tokenUtils_1.signToken)({
             id: verifiedUser.id,
             verified: verifiedUser.verified,
         });
         const { password } = verifiedUser, rest = __rest(verifiedUser, ["password"]);
-        return [rest, tokeng];
+        return [
+            rest,
+            tokeng,
+            `${verifiedUser.admin_firstname}, You have been verified`,
+        ];
     }
     catch (error) {
         console.error(error);
@@ -102,7 +106,7 @@ async function loginAdmin(email, password) {
     */
     console.log(password);
     console.log(email);
-    const [admin] = await database_1.sql `SELECT * FROM admins WHERE official_email = ${email}`;
+    const [admin] = await (0, database_1.sql) `SELECT * FROM admins WHERE official_email = ${email}`;
     try {
         if (!admin.verified) {
             throw new error_1.APIError({
@@ -119,16 +123,16 @@ async function loginAdmin(email, password) {
                 errors: "User not found",
             });
         }
-        const [pass] = await queries_1.loginAdminQuery(email);
+        const [pass] = await (0, queries_1.loginAdminQuery)(email);
         console.log(pass.password);
         console.log(pass.official_email);
         if ((await argon2_1.default.verify(pass.password, password)) &&
             pass.official_email == email) {
-            pass.logged_at = utils_1.now();
-            database_1.sql `UPDATE admins SET logged_at = ${pass.logged_at} 
+            pass.logged_at = (0, utils_1.now)();
+            (0, database_1.sql) `UPDATE admins SET logged_at = ${pass.logged_at} 
         WHERE official_email = ${email}`;
             console.log("comfirmed credentials");
-            const tokeng = tokenUtils_1.signAdminToken({
+            const tokeng = (0, tokenUtils_1.signAdminToken)({
                 id: pass.id,
                 role: pass.role,
                 verified: pass.verified,
@@ -161,14 +165,14 @@ async function sendResetPasswordTokenViaEmail(email) {
         sensd token in mail body
       */
     try {
-        const [adminData] = await queries_1.getAdminByEmailQuery(email);
+        const [adminData] = await (0, queries_1.getAdminByEmailQuery)(email);
         const id = adminData.id;
         // const token = uuid.v4();
         // const emailKey = `${REDIS_PREFIX}-${token}`;
         const mainurl = `${process.env.BASE_URL}/auth/resetpassword/${id}`;
         // redis.set(emailKey, email);
         const tokenurl = `<p>Please <a href="${mainurl}", target="_blank">click here</a> to reset your password.</p>`;
-        mailer_1.sendmailRef(email, tokenurl);
+        (0, mailer_1.sendmailRef)(email, tokenurl);
         // tokenVerification(email)
     }
     catch (error) {

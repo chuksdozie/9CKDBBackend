@@ -21,7 +21,7 @@ export async function sendTokenViaEmail(email: string) {
     */
   const token = uuid.v4();
   const emailKey = `${REDIS_PREFIX}-${token}`;
-  const mainurl = `${process.env.BASE_URL}/auth/verify/${token}`;
+  const mainurl = `${process.env.BASE_URL}/api/auth/verify/${token}`;
   redis.set(emailKey, email);
   const tokenurl = `<p>Thanks for registering, please <a href="${mainurl}", target="_blank">click here</a> to verify your email.</p>`;
   sendmailRef(email, tokenurl);
@@ -51,8 +51,11 @@ export async function verifyEmail(token: string) {
       verified: verifiedUser.verified,
     });
     const { password, ...rest } = verifiedUser;
-
-    return [rest, tokeng];
+    return [
+      rest,
+      tokeng,
+      `${verifiedUser.admin_firstname}, You have been verified`,
+    ];
   } catch (error) {
     console.error(error);
     throw new APIError({

@@ -8,7 +8,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const location_1 = __importDefault(require("../controllers/location/location"));
 const location_2 = __importDefault(require("../controllers/location/location"));
 const auth_1 = require("../middlewares/auth");
-const router = express_1.Router();
+const router = (0, express_1.Router)();
 router.post("/add/location", async (req, res) => {
     try {
         const { location_name, location_city, location_address } = req.body;

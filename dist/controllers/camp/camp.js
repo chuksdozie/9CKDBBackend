@@ -10,7 +10,7 @@ const utils_1 = require("../../utils");
 // adding a new course to the db
 async function addNewCamp(payload) {
     try {
-        const [camp] = await queries_1.addNewCampQuery(payload);
+        const [camp] = await (0, queries_1.addNewCampQuery)(payload);
         return camp;
     }
     catch (error) {
@@ -24,7 +24,7 @@ async function addNewCamp(payload) {
 // get all the courses to the db
 async function getAllCamps() {
     try {
-        const camp = await queries_1.getAllCampsQuery();
+        const camp = await (0, queries_1.getAllCampsQuery)();
         return camp;
     }
     catch (error) {
@@ -38,7 +38,7 @@ async function getAllCamps() {
 // edit camp name details
 async function editCamp(id, payload) {
     try {
-        const campToEdit = await queries_1.getCampByIdQuery(id);
+        const campToEdit = await (0, queries_1.getCampByIdQuery)(id);
         if (!campToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -48,9 +48,9 @@ async function editCamp(id, payload) {
         }
         const editPayload = {
             camp_name: payload.camp_name || campToEdit[0].camp_name,
-            updated_at: utils_1.now(),
+            updated_at: (0, utils_1.now)(),
         };
-        const [editedCamp] = await queries_1.editCampQuery(id, editPayload);
+        const [editedCamp] = await (0, queries_1.editCampQuery)(id, editPayload);
         return editedCamp;
     }
     catch (error) {

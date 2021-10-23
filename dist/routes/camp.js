@@ -8,7 +8,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const camp_1 = __importDefault(require("../controllers/camp/camp"));
 const auth_1 = require("../middlewares/auth");
 const camp_2 = __importDefault(require("../controllers/camp/camp"));
-const router = express_1.Router();
+const router = (0, express_1.Router)();
 // adding a new course to the db
 router.post("/add/camp", async (req, res) => {
     try {

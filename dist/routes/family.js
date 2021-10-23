@@ -9,7 +9,7 @@ const family_1 = __importDefault(require("../controllers/family/family"));
 const auth_1 = require("../middlewares/auth");
 const family_2 = __importDefault(require("../controllers/family/family"));
 const student_1 = __importDefault(require("../controllers/student/student"));
-const router = express_1.Router();
+const router = (0, express_1.Router)();
 router.post("/register/parent", async (req, res) => {
     try {
         const { parent_firstname, parent_lastname, parent_phonenumber, emergency_firstname, emergency_lastname, emergency_phonenumber, parent_email, home_address, city, how_parent_heard_about_us, } = req.body;

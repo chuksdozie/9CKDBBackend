@@ -26,8 +26,8 @@ const auth_2 = require("../../middlewares/auth");
 async function signUpAdmin(payload) {
     try {
         const hashedPassword = await argon2_1.default.hash(payload.password);
-        const [admin] = await queries_1.signUpAdminQuery(Object.assign(Object.assign({}, payload), { password: hashedPassword }));
-        auth_1.sendTokenViaEmail(payload.official_email);
+        const [admin] = await (0, queries_1.signUpAdminQuery)(Object.assign(Object.assign({}, payload), { password: hashedPassword }));
+        (0, auth_1.sendTokenViaEmail)(payload.official_email);
         console.log(payload.password);
         return admin;
     }
@@ -47,17 +47,17 @@ send the unhashed password to the admins email 🆗
 **/
 async function addNewAdmin(payload) {
     try {
-        const password = utils_1.newPassword();
+        const password = (0, utils_1.newPassword)();
         const hashedPassword = await argon2_1.default.hash(password);
-        const [newAdmin] = await queries_1.addNewAdminQuery(Object.assign(Object.assign({}, payload), { role: "admin", password: hashedPassword }));
-        const [verifiedUser] = await queries_1.verifyOwnerAdminQuery(newAdmin.official_email);
+        const [newAdmin] = await (0, queries_1.addNewAdminQuery)(Object.assign(Object.assign({}, payload), { role: "admin", password: hashedPassword }));
+        const [verifiedUser] = await (0, queries_1.verifyOwnerAdminQuery)(newAdmin.official_email);
         const passwordUrl = `<p>Use the following details to login to the Student Record Database<br>
       email:  <strong>${newAdmin.official_email}</strong><br>
       password:  <strong>${password}</strong><br>
       Please feel free to change your password anytime
       </p>`;
         // takes in email address and content in html
-        mailer_1.sendmailRef(newAdmin.official_email, passwordUrl);
+        (0, mailer_1.sendmailRef)(newAdmin.official_email, passwordUrl);
         console.log(verifiedUser);
         console.log(password);
         // signAdminToken({
@@ -83,17 +83,17 @@ send the unhashed password to the admins email 🆗
 **/
 async function addNewSuperAdmin(payload) {
     try {
-        const password = utils_1.newPassword();
+        const password = (0, utils_1.newPassword)();
         const hashedPassword = await argon2_1.default.hash(password);
-        const [newAdmin] = await queries_1.addNewAdminQuery(Object.assign(Object.assign({}, payload), { role: "super admin", owner: false, password: hashedPassword }));
-        const [verifiedUser] = await queries_1.verifyAdminQuery(newAdmin.official_email);
+        const [newAdmin] = await (0, queries_1.addNewAdminQuery)(Object.assign(Object.assign({}, payload), { role: "super admin", owner: false, password: hashedPassword }));
+        const [verifiedUser] = await (0, queries_1.verifyAdminQuery)(newAdmin.official_email);
         const passwordUrl = `<p>Use the following details to login to the Student Record Database<br>
       email:  <strong>${newAdmin.official_email}</strong><br>
       password:  <strong>${password}</strong><br>
       Please feel free to change your password anytime
       </p>`;
         // takes in email address and content in html
-        mailer_1.sendmailRef(newAdmin.official_email, passwordUrl);
+        (0, mailer_1.sendmailRef)(newAdmin.official_email, passwordUrl);
         console.log(verifiedUser);
         console.log(password);
         // signAdminToken({
@@ -114,7 +114,7 @@ async function addNewSuperAdmin(payload) {
 // get admin details by id
 async function getAdminById(id) {
     try {
-        const [admin] = await queries_1.getAdminByIdQuery(id);
+        const [admin] = await (0, queries_1.getAdminByIdQuery)(id);
         return admin;
     }
     catch (error) {
@@ -128,7 +128,7 @@ async function getAdminById(id) {
 // a collection of admins recent logins
 async function recentAdminLogin() {
     try {
-        const admin = await queries_1.recentAdminLoginQuery();
+        const admin = await (0, queries_1.recentAdminLoginQuery)();
         console.log(admin);
         return admin;
     }
@@ -143,7 +143,7 @@ async function recentAdminLogin() {
 // a collection of admins recent logins
 async function getAllAdmins() {
     try {
-        const admin = await queries_1.getAllAdminsQuery();
+        const admin = await (0, queries_1.getAllAdminsQuery)();
         console.log(admin);
         return admin;
     }
@@ -158,7 +158,7 @@ async function getAllAdmins() {
 // getting all the regular admins
 async function getRegularAdmins() {
     try {
-        const admin = await queries_1.getRegularAdminsQuery();
+        const admin = await (0, queries_1.getRegularAdminsQuery)();
         console.log(admin);
         return admin;
     }
@@ -173,7 +173,7 @@ async function getRegularAdmins() {
 // edit details of an admin
 async function editAdminById(id, payload) {
     try {
-        const adminToEdit = await queries_1.getAdminByIdQuery(id);
+        const adminToEdit = await (0, queries_1.getAdminByIdQuery)(id);
         if (!adminToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -200,9 +200,9 @@ async function editAdminById(id, payload) {
             official_email: payload.official_email || adminToEdit[0].official_email,
             admin_phonenumber: payload.admin_phonenumber || adminToEdit[0].admin_phonenumber,
             password: hashedPassword,
-            updated_at: utils_1.now(),
+            updated_at: (0, utils_1.now)(),
         };
-        const [editedAdmin] = await queries_1.editAdminQuery(id, editPayload);
+        const [editedAdmin] = await (0, queries_1.editAdminQuery)(id, editPayload);
         const { password: _ } = editedAdmin, rest = __rest(editedAdmin, ["password"]);
         return rest;
     }
@@ -217,7 +217,7 @@ async function editAdminById(id, payload) {
 // edit details of an admin
 async function editAdminRoleById(id, payload) {
     try {
-        const adminToEdit = await queries_1.getAdminByIdQuery(id);
+        const adminToEdit = await (0, queries_1.getAdminByIdQuery)(id);
         if (!adminToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -231,9 +231,9 @@ async function editAdminRoleById(id, payload) {
             official_email: payload.official_email || adminToEdit[0].official_email,
             admin_phonenumber: payload.admin_phonenumber || adminToEdit[0].admin_phonenumber,
             role: payload.role || adminToEdit[0].role,
-            updated_at: utils_1.now(),
+            updated_at: (0, utils_1.now)(),
         };
-        const [editedAdmin] = await queries_1.editAdminRoleQuery(id, editPayload);
+        const [editedAdmin] = await (0, queries_1.editAdminRoleQuery)(id, editPayload);
         return editedAdmin;
     }
     catch (error) {
@@ -247,7 +247,7 @@ async function editAdminRoleById(id, payload) {
 // edit details in a course
 async function changePassword(id, newPassword, payload) {
     try {
-        const adminToEdit = await queries_1.getAdminPasswordByIdQuery(id);
+        const adminToEdit = await (0, queries_1.getAdminPasswordByIdQuery)(id);
         if (!adminToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -278,9 +278,9 @@ async function changePassword(id, newPassword, payload) {
         }
         const editPayload = {
             password: hashedPassword,
-            updated_at: utils_1.now(),
+            updated_at: (0, utils_1.now)(),
         };
-        const [editedAdmin] = await queries_1.editAdminPasswordQuery(id, editPayload);
+        const [editedAdmin] = await (0, queries_1.editAdminPasswordQuery)(id, editPayload);
         const { password: _ } = editedAdmin, rest = __rest(editedAdmin, ["password"]);
         return rest;
     }
@@ -295,7 +295,7 @@ async function changePassword(id, newPassword, payload) {
 // send password reset token to email
 async function forgotPassword(email) {
     try {
-        const adminToEdit = await queries_1.getAdminByEmailQuery(email);
+        const adminToEdit = await (0, queries_1.getAdminByEmailQuery)(email);
         console.log(1, email);
         console.log(2, adminToEdit);
         if (!adminToEdit.length) {
@@ -306,7 +306,7 @@ async function forgotPassword(email) {
             });
         }
         else {
-            auth_1.sendResetPasswordTokenViaEmail(email);
+            (0, auth_1.sendResetPasswordTokenViaEmail)(email);
         }
         return adminToEdit;
     }
@@ -321,7 +321,7 @@ async function forgotPassword(email) {
 // use password reset token to set a new password
 async function resetPassword(id, newPassword) {
     try {
-        const adminToEdit = await queries_1.getAdminByIdQuery(id);
+        const adminToEdit = await (0, queries_1.getAdminByIdQuery)(id);
         if (!adminToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -333,9 +333,9 @@ async function resetPassword(id, newPassword) {
         hashedPassword = await argon2_1.default.hash(newPassword);
         const editPayload = {
             password: hashedPassword,
-            updated_at: utils_1.now(),
+            updated_at: (0, utils_1.now)(),
         };
-        const [editedAdmin] = await queries_1.editAdminPasswordQuery(id, editPayload);
+        const [editedAdmin] = await (0, queries_1.editAdminPasswordQuery)(id, editPayload);
         const { password: _ } = editedAdmin, rest = __rest(editedAdmin, ["password"]);
         return rest;
     }
@@ -350,7 +350,7 @@ async function resetPassword(id, newPassword) {
 // edit details of an admin
 async function deleteAdminById(id, payload) {
     try {
-        const adminToEdit = await queries_1.getAdminByIdQuery(id);
+        const adminToEdit = await (0, queries_1.getAdminByIdQuery)(id);
         if (!adminToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -365,9 +365,9 @@ async function deleteAdminById(id, payload) {
             admin_firstname: payload.admin_firstname,
             admin_lastname: payload.admin_lastname,
             official_email: payload.official_email,
-            deleted_at: utils_1.now(),
+            deleted_at: (0, utils_1.now)(),
         };
-        const [editedAdmin] = await queries_1.deleteAdminByIdQuery(id, editPayload);
+        const [editedAdmin] = await (0, queries_1.deleteAdminByIdQuery)(id, editPayload);
         return editedAdmin;
     }
     catch (error) {

@@ -9,7 +9,7 @@ const student_1 = __importDefault(require("../controllers/student/student"));
 const student_2 = __importDefault(require("../controllers/student/student"));
 const auth_1 = require("../middlewares/auth");
 const student_3 = __importDefault(require("../controllers/student/student"));
-const router = express_1.Router();
+const router = (0, express_1.Router)();
 router.post("/register/child", async (req, res) => {
     try {
         const { first_name, last_name, family_id, date_of_birth, sex } = req.body;

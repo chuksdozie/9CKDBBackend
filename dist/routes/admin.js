@@ -11,7 +11,7 @@ const admin_3 = __importDefault(require("../controllers/admin"));
 const http_status_1 = __importDefault(require("http-status"));
 const auth_1 = require("../controllers/auth/auth");
 const auth_2 = require("../middlewares/auth");
-const router = express_1.Router();
+const router = (0, express_1.Router)();
 /**
  * Add an admin
  * Method: POST
@@ -38,7 +38,7 @@ router.post("/create", async (req, res) => {
 router.get("/verify/:token", async (req, res) => {
     try {
         const token = req.params.token;
-        const data = await auth_1.verifyEmail(token);
+        const data = await (0, auth_1.verifyEmail)(token);
         res.status(http_status_1.default.CREATED).json({ data });
         return;
     }
@@ -50,7 +50,7 @@ router.get("/verify/:token", async (req, res) => {
 router.post("/login", async (req, res) => {
     try {
         const { official_email, password } = req.body;
-        const data = await auth_1.loginAdmin(official_email, password);
+        const data = await (0, auth_1.loginAdmin)(official_email, password);
         res.status(http_status_1.default.CREATED).json({ data });
         return;
     }

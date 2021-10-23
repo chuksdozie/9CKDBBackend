@@ -9,7 +9,7 @@ const queries_1 = require("../../queries");
 const utils_1 = require("../../utils");
 async function addNewLocation(payload) {
     try {
-        const [location] = await queries_1.addNewLocationQuery(payload);
+        const [location] = await (0, queries_1.addNewLocationQuery)(payload);
         return location;
     }
     catch (error) {
@@ -23,7 +23,7 @@ async function addNewLocation(payload) {
 // get all locations in db
 async function getAllLocations() {
     try {
-        const location = await queries_1.getAllLocationsQuery();
+        const location = await (0, queries_1.getAllLocationsQuery)();
         return location;
     }
     catch (error) {
@@ -36,7 +36,7 @@ async function getAllLocations() {
 }
 async function editLocationById(id, payload) {
     try {
-        const locationToEdit = await queries_1.getLocationByIdQuery(id);
+        const locationToEdit = await (0, queries_1.getLocationByIdQuery)(id);
         if (!locationToEdit.length) {
             throw new error_1.APIError({
                 status: http_status_1.default.NOT_FOUND,
@@ -48,9 +48,9 @@ async function editLocationById(id, payload) {
             location_name: payload.location_name || locationToEdit[0].location_name,
             location_address: payload.location_address || locationToEdit[0].location_address,
             location_city: payload.location_city || locationToEdit[0].location_city,
-            updated_at: utils_1.now(),
+            updated_at: (0, utils_1.now)(),
         };
-        const [editedLocation] = await queries_1.editLocationByIdQuery(id, editPayload);
+        const [editedLocation] = await (0, queries_1.editLocationByIdQuery)(id, editPayload);
         return editedLocation;
     }
     catch (error) {

@@ -9,7 +9,7 @@ const course_1 = __importDefault(require("../controllers/course/course"));
 const course_2 = __importDefault(require("../controllers/course/course"));
 const course_3 = __importDefault(require("../controllers/course/course"));
 const auth_1 = require("../middlewares/auth");
-const router = express_1.Router();
+const router = (0, express_1.Router)();
 // adding a new course to the db
 router.post("/add/course", async (req, res) => {
     try {

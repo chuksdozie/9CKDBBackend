@@ -3,7 +3,7 @@ import redis, { REDIS_PREFIX } from "../../config/redis";
 import argon2 from "argon2";
 import { sendmailRef } from "../../config/mailer";
 import {
-  verifyAdminQuery,
+  verifyOwnerAdminQuery,
   loginAdminQuery,
   getAdminByEmailQuery,
 } from "../../queries";
@@ -45,7 +45,7 @@ export async function verifyEmail(token: string) {
 
     const email = (await redis.get(emailKey)) as string;
     console.log(email);
-    const [verifiedUser] = await verifyAdminQuery(email);
+    const [verifiedUser] = await verifyOwnerAdminQuery(email);
     const tokeng = signToken({
       id: verifiedUser.id,
       verified: verifiedUser.verified,

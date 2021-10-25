@@ -74,7 +74,7 @@ async function verifyEmail(token) {
         }
         const email = (await redis_1.default.get(emailKey));
         console.log(email);
-        const [verifiedUser] = await (0, queries_1.verifyAdminQuery)(email);
+        const [verifiedUser] = await (0, queries_1.verifyOwnerAdminQuery)(email);
         const tokeng = (0, tokenUtils_1.signToken)({
             id: verifiedUser.id,
             verified: verifiedUser.verified,

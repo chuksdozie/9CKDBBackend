@@ -15,7 +15,6 @@ import {
   recentAdminLoginQuery,
   signUpAdminQuery,
   verifyAdminQuery,
-  verifyOwnerAdminQuery,
 } from "../../queries";
 import {
   sendTokenViaEmail,
@@ -62,7 +61,7 @@ async function addNewAdmin(payload: newAdminPayload) {
       role: "admin",
       password: hashedPassword,
     });
-    const [verifiedUser] = await verifyOwnerAdminQuery(newAdmin.official_email);
+    const [verifiedUser] = await verifyAdminQuery(newAdmin.official_email);
     const passwordUrl = `<p>Use the following details to login to the Student Record Database<br>
       email:  <strong>${newAdmin.official_email}</strong><br>
       password:  <strong>${password}</strong><br>

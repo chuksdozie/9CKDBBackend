@@ -50,7 +50,7 @@ async function addNewAdmin(payload) {
         const password = (0, utils_1.newPassword)();
         const hashedPassword = await argon2_1.default.hash(password);
         const [newAdmin] = await (0, queries_1.addNewAdminQuery)(Object.assign(Object.assign({}, payload), { role: "admin", password: hashedPassword }));
-        const [verifiedUser] = await (0, queries_1.verifyOwnerAdminQuery)(newAdmin.official_email);
+        const [verifiedUser] = await (0, queries_1.verifyAdminQuery)(newAdmin.official_email);
         const passwordUrl = `<p>Use the following details to login to the Student Record Database<br>
       email:  <strong>${newAdmin.official_email}</strong><br>
       password:  <strong>${password}</strong><br>

@@ -1,4 +1,5 @@
 require("dotenv").config();
+import cors from "cors";
 import express from "express";
 import { sendTokenViaEmail } from "./controllers/auth/auth";
 import { rootHandler, helloHandler, showtoken } from "./handlers";
@@ -15,6 +16,7 @@ const app = express();
 const port = process.env.PORT || "7300";
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 app.use(function (_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

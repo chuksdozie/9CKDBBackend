@@ -1,6 +1,7 @@
 import TableCommons from "./interfaceCommons";
 
 export default interface familydataTable extends TableCommons {
+  family_id: string;
   parent_firstname: string;
   parent_lastname: string;
   parent_phonenumber: string;
